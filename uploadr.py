@@ -59,6 +59,7 @@ if sys.version_info < (2,7):
   sys.exit(1)
 
 import argparse
+import datetime
 import hashlib
 import mimetools
 import mimetypes
@@ -493,7 +494,7 @@ class Uploadr:
                     url = self.build_request(api.upload, d, (photo,))
                     res = parse(urllib2.urlopen( url ))
                     if ( not res == "" and res.documentElement.attributes['stat'].value == "ok" ):
-                        print("Successfully uploaded the file: " + file)
+                        print(datetime.datetime.now() + " - Successfully uploaded the file: " + file)
                         # Add to set
                         cur.execute('INSERT INTO files (files_id, path, md5, tagged) VALUES (?, ?, ?, 1)',(int(str(res.getElementsByTagName('photoid')[0].firstChild.nodeValue)), file, self.md5Checksum(file)))
                         success = True
